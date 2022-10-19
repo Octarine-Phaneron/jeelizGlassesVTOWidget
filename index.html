@@ -13,6 +13,8 @@
     <!-- For icons adjust fame or resize canvas -->
     <script defer src="https://use.fontawesome.com/releases/v5.0.6/js/all.js"></script>
 
+    <script src="skuList.js"></script>
+
     <!-- Font for the header only: -->
     <link href="https://fonts.googleapis.com/css?family=Roboto+Condensed" rel="stylesheet">
     
@@ -100,8 +102,20 @@
             } // end switch
           } // end onError()
         }) // end JEELIZVTOWIDGET.start call
+        loadSkuOptions();
       } // end main()
 
+      function loadSkuOptions() {
+        let select = document.querySelector('#skuSelect');
+        let options = skuList.map(sku => `<option value=${sku}>${sku}</option>`).join('\n');
+        select.innerHTML = options;
+      }
+
+      function loadSelectedSku() {
+        let select = document.querySelector('#skuSelect');
+        let selectedValue = select.options[select.selectedIndex].value;
+        JEELIZVTOWIDGET.load(selectedValue);
+      }
 
       function load_modelBySKU(){
         const sku = prompt('Please enter a glasses model SKU:', 'rayban_wayfarer_havane_marron');
@@ -155,10 +169,12 @@
 
         <!-- CHANGE MODEL BUTTONS: -->
         <div class='JeelizVTOWidgetControls' id='JeelizVTOWidgetChangeModelContainer'>
-          <button onclick="JEELIZVTOWIDGET.load('rayban_aviator_or_vertFlash')">Model 1</button>
+          <!-- <button onclick="JEELIZVTOWIDGET.load('rayban_aviator_or_vertFlash')">Model 1</button>
           <button onclick="JEELIZVTOWIDGET.load('rayban_round_cuivre_pinkBrownDegrade')">Model 2</button>
-          <button onclick="JEELIZVTOWIDGET.load_modelStandalone('glasses3D/glasses1.json')">Model 3</button>
-          <button onclick="load_modelBySKU()">by SKU</button>
+          <button onclick="JEELIZVTOWIDGET.load_modelStandalone('glasses3D/glasses1.json')">Model 3</button> -->
+          <select name="sku" id="skuSelect" onchange="loadSelectedSku();">
+          </select>
+          <!-- <button onclick="load_modelBySKU()">by SKU</button> -->
         </div>
 
         <!-- BEGIN ADJUST NOTICE -->
