@@ -105,18 +105,6 @@
         loadSkuOptions();
       } // end main()
 
-      function loadSkuOptions() {
-        let select = document.querySelector('#skuSelect');
-        let options = skuList.map(sku => `<option value=${sku}>${sku}</option>`).join('\n');
-        select.innerHTML = options;
-      }
-
-      function loadSelectedSku() {
-        let select = document.querySelector('#skuSelect');
-        let selectedValue = select.options[select.selectedIndex].value;
-        JEELIZVTOWIDGET.load(selectedValue);
-      }
-
       function load_modelBySKU(){
         const sku = prompt('Please enter a glasses model SKU:', 'rayban_wayfarer_havane_marron');
         if (sku){
@@ -172,8 +160,10 @@
           <!-- <button onclick="JEELIZVTOWIDGET.load('rayban_aviator_or_vertFlash')">Model 1</button>
           <button onclick="JEELIZVTOWIDGET.load('rayban_round_cuivre_pinkBrownDegrade')">Model 2</button>
           <button onclick="JEELIZVTOWIDGET.load_modelStandalone('glasses3D/glasses1.json')">Model 3</button> -->
-          <select name="sku" id="skuSelect" onchange="loadSelectedSku();">
+          <button style="display:inline-block;width:10%;" onclick="previousSku();"> &lt </button>
+          <select style="display:inline-block;width:75%;" name="sku" id="skuSelect" onchange="loadSelectedSku();">
           </select>
+          <button style="display:inline-block;width:10%;" onclick="nextSku();"> &gt </button>
           <!-- <button onclick="load_modelBySKU()">by SKU</button> -->
         </div>
 
@@ -194,6 +184,34 @@
 
       </div>
     </div>
+    <script>
+      let select = document.querySelector('#skuSelect');
+
+      function loadSkuOptions() {
+        let options = skuList.map(sku => `<option value=${sku}>${sku}</option>`).join('\n');
+        select.innerHTML = options;
+      }
+
+      function loadSelectedSku() {
+        let selectedValue = select.options[select.selectedIndex].value;
+        JEELIZVTOWIDGET.load(selectedValue);
+      }
+
+      function previousSku(){
+        if (select.selectedIndex > 0) {
+          select.querySelectorAll('option')[select.selectedIndex - 1].selected = 'selected';
+        }
+        loadSelectedSku()
+      }
+      function nextSku(){
+        let optionArray = select.querySelectorAll('option');
+        if (select.selectedIndex < optionArray.length){
+          optionArray[select.selectedIndex + 1].selected = 'selected'
+        }
+        loadSelectedSku()
+      }
+
+    </script>
   </body>
 </html>
  
